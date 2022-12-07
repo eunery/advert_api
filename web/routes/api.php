@@ -51,4 +51,13 @@ Route::get('/logout', function () {
     return 'Logout';
 });
 
+Route::get('/test', function() {
+    if (DB::connection()->getDatabaseName())  {
+        print(DB::connection()->getDatabaseName());
+//        dd('Есть контакт!');
+    } else {
+        return 'Соединения нет';
+    }});
+
+
 
