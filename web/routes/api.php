@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Controllers\Api\OrderApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserApiController;
-use App\Http\Controllers\Api\OrderApiController;
 use App\Http\Controllers\Api\VehicleApiController;
 
 /*
@@ -27,28 +28,41 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    может как создавать заказ так и принимать, если заполнил допольнительную информацию
 */
 
-// список всех заказов todo реализовать вывод списка
-Route::get('/orders', [OrderApiController::class, 'getAllOrders']);
-// детали конкретного заказа todo реализовать логику получения данных о посте
-Route::get('/order/{id}', [OrderApiController::class, 'getOrder']);
+Route::group(['middleware' => ['auth:sanctum']], function (){
+    // создание заказа
+    Route::post('/orders', [OrderApiController::class, 'createOrder']);
+
+    // удаление заказа
+    Route::delete('/orders/{id}', [OrderApiController::class, 'deleteOrder']);
+
+    // изменение заказа
+    Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
+
+    // выход
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+});
+
+// список всех заказов
+Route::get('/orders', [OrderApiController::class, 'getAllOrders'])  ;
+
+// детали конкретного заказа
+Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
 
 // список машин пользователя todo реализовать логику получения списка машин
 Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
+
 // вывод определенной машины пользователя todo реализовать логику получения определенной машины
 Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
 
 
-// авторизация todo реализовать логику авторизации / изменить метод
-Route::post('/login', function () {
-    return 'Login';
-});
-// регистрация todo реализовать логику регистрации / изменить метод
-Route::post('/register', function () {
-    return 'Login';
-});
-// выход todo реализовать логику выхода из аккаунта / изменить метод
-Route::get('/logout', function () {
-    return 'Logout';
-});
+// регистрация
+Route::post('/register', [AuthApiController::class, 'register']);
+
+// авторизация
+Route::post('/login', [AuthApiController::class, 'login']);
+
+Route::get('/users/{id}', [UserApiController::class, 'getUserById']);
+
+Route::put('/users/{user}', [UserApiController::class, 'updateUser']);
 
 

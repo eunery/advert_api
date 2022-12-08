@@ -3,18 +3,37 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderApiController extends Controller
 {
-    // todo реализовать
-    // Метод выводит все заказы, которые есть
-    public function getAllOrders() {
-        return 'list of orders';
+    public function getAllOrders(){
+        return response()->json(Order::all());
     }
 
-    // Метод выводит информацию о заказе
-    public function getOrder(int $id) {
-        return 'order details';
+    public function getOrderById($id){
+        return response()->json(Order::find($id));
+    }
+
+    public function createOrder(Request $request){
+        $order = Order::create($request->all());
+        return response()->json($order);
+    }
+
+    public function updateOrder(Request $request, $id){
+        $order = Order::find($id);
+        $order -> update($request->all());
+        return response()->json($order);
+    }
+
+    public function deleteOrder($id){
+        $order = Order::find($id);
+        if ($order) {
+            $order->delete();
+            return response(null, 200);
+        }
+        else
+            return response(null, 404);
     }
 }
