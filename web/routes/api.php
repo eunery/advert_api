@@ -65,4 +65,13 @@ Route::get('/users/{id}', [UserApiController::class, 'getUserById']);
 
 Route::put('/users/{user}', [UserApiController::class, 'updateUser']);
 
+Route::get('/test', function() {
+    if (DB::connection()->getDatabaseName())  {
+        print(DB::connection()->getDatabaseName());
+//        dd('Есть контакт!');
+    } else {
+        return 'Соединения нет';
+    }});
+
+
 
