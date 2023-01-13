@@ -2,14 +2,74 @@ version: '3.9'
 
 services:
   web_1:
+    image: foodly
     build: web/.
+    restart: always
     depends_on:
       - db
     links:
       - db
       - rabbit
+
+  web_2:
+    image: foodly
+    build: web/.
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
+      - rabbit
+
+  rabbit:
+    image: rabbitmq:management
+    hostname: rabbit
+    build: ./rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
     environment:
-      NAME: web_1
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:8000"
+      - "3001:4000"
+    depends_on:
+      - web_1
+      - web_2
+    links:
+      - web_1
+      - web_2
+
+  db:
+    image: mysql
+    build: ./mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: 12345
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - mysql:/var/lib/mysql
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     restart: always
@@ -19,46 +79,7 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-  db:
-    image: mysql
-    restart: always
-    build: ./mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DB: laravel
-      MYSQL_ROOT_PASSWORD: 12345
-    volumes:
-      - mysql:/var/lib/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
-  rabbit:
-    image: rabbitmq:management
-    hostname: rabbit
-    build: ./rabbitmq
-    ports:
-      - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: myuser
-      RABBITMQ_DEFAULT_PASS: abc
-    healthcheck:
-      test: ["CMD", "CURL", "-f", "http://localhost:15672"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-  nginx:
-    build: ./nginx
-    image: nginx
-    ports:
-      - "8080:8000"
-    depends_on:
-      - web_1
-    links:
-      - web_1
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
-  redis:
-    image: redis
 
 volumes:
   mysql:
+  redis_data:
