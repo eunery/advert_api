@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Jobs\CreateOrderJob;
+use App\Jobs\GetOrdersJob;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,7 +29,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(CreateOrderJob::Class . '@handle', fn($job) => $job->handle());
+        $this->app->bind(GetOrdersJob::Class . '@handle', fn($job) => $job->handle());
     }
 
     /**

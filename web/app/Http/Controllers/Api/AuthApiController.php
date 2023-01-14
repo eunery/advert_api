@@ -16,7 +16,7 @@ class AuthApiController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string'
         ]);
 
         $user = User::create([
@@ -58,7 +58,7 @@ class AuthApiController extends Controller
         return response ($response, 201);
     }
 
-    public function logout(Response $request){
+    public function logout(){
         auth()->user()->tokens()->delete();
         return ['message' => 'Logged out'];
     }

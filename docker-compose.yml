@@ -80,6 +80,18 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
 
+  supervisor:
+    build: ./supervisor
+    container_name: supervisor
+    volumes:
+      - ./web:/var/www/public
+    depends_on:
+      - nginx
+      - rabbit
+    links:
+      - nginx
+      - rabbit
+
 volumes:
   mysql:
   redis_data:
