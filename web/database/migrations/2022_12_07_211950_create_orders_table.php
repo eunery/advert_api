@@ -16,17 +16,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
-            $table->string('tittle');
-            $table->string('location');
-            $table->float('price');
-            $table->string('paymentSchedule');
-            $table->string('size');
-            $table->string('place');
-            $table->string('text');
-            $table->string('shortText');
-            $table->dateTime('created_at')->default(now());
-            $table->dateTime('closed_at')->nullable();
+            $table->string('status')->nullable();
+            $table->string('tittle')->nullable();
+            $table->string('location')->nullable();
+            $table->float('price')->nullable();
+            $table->string('paymentSchedule')->nullable();
+            $table->string('size')->nullable();
+            $table->string('place')->nullable();
+            $table->string('text')->nullable();
+            $table->string('shortText')->nullable();
+            $table->dateTime('created_at')->default(now())->nullable();
+            $table->dateTime('closed_at')->nullable()->nullable();
         });
     }
 

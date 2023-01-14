@@ -17,15 +17,16 @@ return new class extends Migration
             $table->id();
             $table->boolean('isAdmin')->default(false);
             $table->string('name');
-            $table->string('second_name');
-            $table->string('surname');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('image');
-            $table->foreign('activeOrders')->references('id')->on('orders');
-            $table->foreign('placedOrders')->references('id')->on('orders');
-            $table->foreign('vehicles')->references('id')->on('vehicles');
-            $table->foreign('historyVehicles')->references('id')->on('vehicles');
+            $table->string('second_name')->nullable();
+            $table->string('surname')->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('password')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('activeOrders')->nullable();
+            $table->integer('placedOrders')->nullable();
+            $table->integer('vehicles')->nullable();
+            $table->integer('historyVehicles')->nullable();
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
     }
