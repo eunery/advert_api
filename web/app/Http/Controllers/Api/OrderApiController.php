@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateOrderJob;
 use App\Jobs\GetOrdersJob;
+use App\Jobs\UpdateOrderJob;
 use App\Models\Order;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -36,24 +37,25 @@ class OrderApiController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return void
      */
-    public function createOrder(Request $request){
-        $order = Order::create($request->all());
-        #CreateOrderJob::dispatch($request);
-        return response()->json($order);
+    public function createOrder(Request $request)
+    {
+        #$order = Order::create($request->all());
+        CreateOrderJob::dispatch($request);
+        #return response()->json($order);
     }
 
     /**
      * @param Request $request
      * @param $id
-     * @return JsonResponse
+     * @return void
      */
 
-    public function updateOrder(Request $request, $id){
-        $order = Order::find($id);
-        $order -> update($request->all());
-        return response()->json($order);
+    public function updateOrder(Request $request, Int $id)
+    {
+        UpdateOrderJob::dispatch($request, $id);
+        #return response()->json($order);
     }
 
     /**
@@ -61,13 +63,13 @@ class OrderApiController extends Controller
      * @return Application|ResponseFactory|Response
      */
 
-    public function deleteOrder($id){
+    public function deleteOrder($id)
+    {
         $order = Order::find($id);
         if ($order) {
             $order->delete();
             return response(null, 200);
-        }
-        else
+        } else
             return response(null, 404);
     }
 }

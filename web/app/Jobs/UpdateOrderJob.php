@@ -4,25 +4,28 @@ namespace App\Jobs;
 
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CreateOrderJob implements ShouldQueue
+class UpdateOrderJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $data;
+    private array $data;
+    private Int $id;
 
     /**
      * @param Request $request
+     * @param Int $id
      */
-    public function __construct(Request $request)
+
+    public function __construct(Request $request, Int $id)
     {
         $this->data = $request->all();
+        $this->id = $id;
     }
 
     /**
@@ -30,8 +33,9 @@ class CreateOrderJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(): void
+    public function handle()
     {
-        Order::create($this->data);
+        $order = Order::find($this->id);
+        $order -> update($this->data);
     }
 }
