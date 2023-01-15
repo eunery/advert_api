@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('user_created')->nullable();
             $table->string('user_accepted')->nullable();
             $table->dateTime('closed_at')->nullable()->nullable();
-            $table->timestamp();
+            $table->timestamps();
         });
     }
 
