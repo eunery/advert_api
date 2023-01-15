@@ -9,7 +9,22 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'tittle',
+        'location',
+        'price',
+        'paymentSchedule',
+        'size',
+        'place',
+        'text',
+        'shortText',
+    ];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'isActive',
+        'created_at',
+        'closed_at',
+        'updated_at'
+    ];
 }
