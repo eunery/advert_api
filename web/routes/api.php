@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
 
     // выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
+
+    Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
 });
 
 // список всех заказов
