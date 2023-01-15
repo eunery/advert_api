@@ -4,20 +4,38 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use function PHPUnit\Framework\isEmpty;
 
 class AuthApiController extends Controller
 {
+    /**
+     * register new user and adding access token
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function register(Request $request)
     {
+        if (empty($request->all())) {
+            return response()->json(['message' => 'Empty credits'], 400);
+        }
+
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string'
+            'password' => 'required|string' // add confirmed to password
         ]);
+
+        if (!isEmpty(User::where('email', $fields['email'])->first())) {
+            return response()->json(['message' => 'User already exists'], 400);
+        }
 
         $user = User::create([
             'name' => $fields['name'],
@@ -32,11 +50,21 @@ class AuthApiController extends Controller
             'token' => $token
         ];
 
-        return response ($response, 201);
+        return response()->json($response, 201);
     }
 
+    /**
+     * login into system by creating access token
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function login(Request $request)
     {
+        if (empty($request->all())) {
+            return response()->json(['message' => 'Empty credits'], 400);
+        }
+
         $fields = $request->validate([
             'email' => 'required|string',
             'password' => 'required|string'
@@ -45,7 +73,13 @@ class AuthApiController extends Controller
         $user = User::where('email', $fields['email'])->first();
 
         if (!$user || !Hash::check($fields['password'], $user->password)){
-            return response(['message' => 'Bad credits'], 401);
+            return response()->json(['message' => 'Bad credits'], 401);
+        }
+
+        if (count(DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->get()) > 0) {
+//            deleting db query manually
+//            DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->delete();
+            return response()->json(['message' => 'Already logged in'], 406);
         }
 
         $token = $user->createToken('token')->plainTextToken;
@@ -55,10 +89,14 @@ class AuthApiController extends Controller
             'token' => $token
         ];
 
-        return response ($response, 201);
+        return response()->json($response, 201);
     }
 
-    public function logout(){
+    /**
+     * @param Request $request
+     * @return string[]
+     */
+    public function logout(Request $request){
         auth()->user()->tokens()->delete();
         return ['message' => 'Logged out'];
     }

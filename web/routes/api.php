@@ -29,6 +29,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 
 Route::group(['middleware' => ['auth:sanctum']], function (){
+
+    // выход
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+
     // создание заказа
     Route::post('/orders', [OrderApiController::class, 'createOrder']);
 
@@ -37,25 +41,33 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
 
     // изменение заказа
     Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
-
+    
     // выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
 });
+    // создание транспорта пользователя
+    Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
 
-// список всех заказов
-Route::get('/orders', [OrderApiController::class, 'getAllOrders'])  ;
+    // список машин пользователя
+    Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
 
-// детали конкретного заказа
-Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
+    // получение информации об определенной машине пользователя
+    Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
 
-// список машин пользователя todo реализовать логику получения списка машин
-Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
+    // изменение сведений об аккаунте пользователя
+    Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
 
-// вывод определенной машины пользователя todo реализовать логику получения определенной машины
-Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
+    // история завершенных заказов пользователя
+    Route::get('/profile/{id}', [UserApiController::class, 'updateUser']);
 
+    // активные заказы пользователя
+    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
+
+    // история выполненных заказов
+    Route::get('/profile/history', [UserApiController::class, '']);
+});
 
 // регистрация
 Route::post('/register', [AuthApiController::class, 'register']);
@@ -63,17 +75,24 @@ Route::post('/register', [AuthApiController::class, 'register']);
 // авторизация
 Route::post('/login', [AuthApiController::class, 'login']);
 
-Route::get('/users/{id}', [UserApiController::class, 'getUserById']);
+// список всех заказов
+Route::get('/orders', [OrderApiController::class, 'getAllOrders'])  ;
 
-Route::put('/users/{user}', [UserApiController::class, 'updateUser']);
+// детали конкретного заказа
+Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
 
-Route::get('/test', function() {
-    if (DB::connection()->getDatabaseName())  {
-        print(DB::connection()->getDatabaseName());
-//        dd('Есть контакт!');
-    } else {
-        return 'Соединения нет';
-    }});
+// сведения об аккаунте пользователя
+Route::get('/profile/{id}', [UserApiController::class, 'getUserById']);
+
+Route::get('/test', function(Request $request) {
+    print($request);
+//    if (DB::connection()->getDatabaseName())  {
+//        print(DB::connection()->getDatabaseName());
+////        dd('Есть контакт!');
+//    } else {
+//        return 'Соединения нет';
+//    }
+});
 
 
 
