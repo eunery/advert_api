@@ -53,6 +53,15 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
 
     // изменение сведений об аккаунте пользователя
     Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
+
+    // история завершенных заказов пользователя
+    Route::get('/profile/{id}', [UserApiController::class, 'updateUser']);
+
+    // активные заказы пользователя
+    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
+
+    // история выполненных заказов
+    Route::get('/profile/history', [UserApiController::class, '']);
 });
 
 // регистрация

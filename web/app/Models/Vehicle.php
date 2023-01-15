@@ -12,4 +12,8 @@ class Vehicle extends Model
     protected $fillable = ['name', 'user_token'];
 
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function vehicle() {
+//        return $this->hasMany('App/')
+    }
 }

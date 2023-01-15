@@ -36,4 +36,8 @@ class OrderApiController extends Controller
         else
             return response(null, 404);
     }
+
+    public function acceptOrder($order_id, Request $request) {
+
+    }
 }

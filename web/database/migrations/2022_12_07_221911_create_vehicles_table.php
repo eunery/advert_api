@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
-            $table->string('user_id');
+            $table->integer('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('color')->nullable();
             $table->string('other')->nullable();
             $table->string('carBrand')->nullable();

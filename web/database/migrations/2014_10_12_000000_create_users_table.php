@@ -23,9 +23,13 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('image')->nullable();
             $table->integer('activeOrders')->nullable();
+            $table->foreign('activeOrders')->references('id')->on('orders');
             $table->integer('placedOrders')->nullable();
+            $table->foreign('placedOrders')->references('id')->on('orders');
             $table->integer('vehicles')->nullable();
+            $table->foreign('vehicles')->references('id')->on('vehicles');
             $table->integer('historyVehicles')->nullable();
+            $table->foreign('historyVehicles')->references('id')->on('vehicles');
             $table->rememberToken()->nullable();
             $table->timestamps();
         });
