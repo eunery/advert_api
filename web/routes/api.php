@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    может как создавать заказ так и принимать, если заполнил допольнительную информацию
 */
 
-Route::group(['middleware' => ['auth:sanctum']], function (){
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
@@ -41,12 +41,12 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
 
     // изменение заказа
     Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
-    
+
     // выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
-});
+
     // создание транспорта пользователя
     Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
 
@@ -76,7 +76,7 @@ Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/login', [AuthApiController::class, 'login']);
 
 // список всех заказов
-Route::get('/orders', [OrderApiController::class, 'getAllOrders'])  ;
+Route::get('/orders', [OrderApiController::class, 'getAllOrders']);
 
 // детали конкретного заказа
 Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
@@ -84,7 +84,7 @@ Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
 // сведения об аккаунте пользователя
 Route::get('/profile/{id}', [UserApiController::class, 'getUserById']);
 
-Route::get('/test', function(Request $request) {
+Route::get('/test', function (Request $request) {
     print($request);
 //    if (DB::connection()->getDatabaseName())  {
 //        print(DB::connection()->getDatabaseName());
