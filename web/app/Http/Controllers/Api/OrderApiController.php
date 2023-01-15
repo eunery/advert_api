@@ -48,7 +48,7 @@ class OrderApiController extends Controller
 
     /**
      * @param Request $request
-     * @param $id
+     * @param Int $id
      * @return void
      */
 

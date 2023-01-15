@@ -31,6 +31,7 @@ class UserApiController extends Controller
      */
 
     public function getUserById($id){
+        $user = User::find($id);
         return response()->json(User::find($id));
     }
 
