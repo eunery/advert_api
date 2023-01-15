@@ -16,8 +16,6 @@ class UserApiController extends Controller
 {
 
     /**
-     * Update information about user
-     *
      * @param Request $request
      * @param User $user
      * @return JsonResponse
@@ -28,27 +26,11 @@ class UserApiController extends Controller
     }
 
     /**
-     * Get social information about user
-     *
      * @param $id
      * @return JsonResponse
      */
+
     public function getUserById($id){
-
-        $user = User::find($id);
-        $response = [
-            $user->password
-        ];
-        return response()->json($response, 302);
-    }
-
-    /**
-     * Get private information about user
-     *
-     * @return JsonResponse
-     */
-    public function getUserPrivateInfo() {
-        $id = auth()->user()->id;
         return response()->json(User::find($id));
     }
 

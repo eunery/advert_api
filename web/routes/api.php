@@ -50,6 +50,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // создание транспорта пользователя
     Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
 
+    // обновление транспорта пользователя
+    Route::post('/vehicle', [VehicleApiController::class, 'updateVehicle']);
+
     // список машин пользователя
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
 

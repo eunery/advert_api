@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\CreateVehicleJob;
+use App\Jobs\UpdateVehicleJob;
 use App\Models\Order;
 use App\Models\Vehicle;
 use Illuminate\Http\JsonResponse;
@@ -12,20 +14,16 @@ use App\Models\User;
 class VehicleApiController extends Controller
 {
     /**
-     * @param Request $request
      * @return JsonResponse
      */
-    public function getAllVehicles(Request $request) {
+    public function getAllVehicles() {
 
-        if (!auth()->check()) {
-            return response()->json(['Unauthorized'], 401);
-        }
-        $vehicles = Order::all();
+        $vehicles = Vehicle::all();
 
         $response = [
             $vehicles
         ];
-        return response()->json([$response], 302);
+        return response()->json([$response], 201);
     }
 
     // Метод получает айди машины и токен пользователя и дает информацию об определенной машине
@@ -39,13 +37,9 @@ class VehicleApiController extends Controller
      */
     public function getVehicle($id, $token) {
 
-        if (!auth()->check()) {
-            return response()->json(['Unauthorized'], 401);
-        }
+        $vehicle = Vehicle::where('id', $id)->first();
 
-        $vehicle = Order::where('id', $id)->first();
-
-        return response()->json([$vehicle], 302);
+        return response()->json([$vehicle], 201);
     }
 
     /**
@@ -55,11 +49,6 @@ class VehicleApiController extends Controller
      * @return JsonResponse
      */
     public function createVehicle(Request $request) {
-
-        if (empty($request->all())) {
-            return response()->json(['message' => 'Empty credits'], 400);
-        }
-
         $fields = $request->validate([
             'carBrand' => 'required|string',
             'model' => 'required|string',
@@ -68,18 +57,12 @@ class VehicleApiController extends Controller
             'issueYear' => 'required|integer',
             'image' => 'nullable|string'
         ]);
+        CreateVehicleJob::dispatch($fields);
+        #return response()->json([$vehicle], 201);
+    }
 
-        $vehicle = Vehicle::create([
-            'carBrand' => $fields['carBrand'],
-            'model' => $fields['model'],
-            'color' => $fields['color'],
-            'other' => $fields['other'],
-            'issueYear' => $fields['issueYear'],
-            'image' => $fields['image']
-        ]);
-
-
-        return response()->json([$vehicle], 201);
+    public function updateVehicle(Request $request, $id){
+        UpdateVehicleJob::dispatch($request, $id);
     }
 
 
