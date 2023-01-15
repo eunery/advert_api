@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->boolean('isActive')->nullable();
+            $table->integer('status')->default(0);
             $table->string('tittle')->nullable();
             $table->string('location')->nullable();
             $table->float('price')->nullable();
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('shortText')->nullable();
             $table->string('user_created')->nullable();
             $table->string('user_accepted')->nullable();
-            $table->dateTime('created_at')->default(now())->nullable();
             $table->dateTime('closed_at')->nullable()->nullable();
+            $table->timestamp();
         });
     }
 

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('color')->nullable();
             $table->string('other')->nullable();
+            $table->string('plateNumber')->nullable();
+            $table->string('model')->nullable();
             $table->string('carBrand')->nullable();
             $table->integer('issueYear')->nullable();
             $table->timestamps();

@@ -9,9 +9,22 @@ class Vehicle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'user_token'];
+    protected $fillable = [
+        'name',
+        'color',
+        'other',
+        'carBrand',
+        'issueYear',
+        'model',
+        'plateNumber',
+        'image'
+    ];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = [
+        'user_id',
+        'created_at',
+        'updated_at'
+    ];
 
     public function vehicle() {
 //        return $this->hasMany('App/')

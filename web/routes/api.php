@@ -56,17 +56,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // получение информации об определенной машине пользователя
     Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
 
+    // внутренняя информация об аккаунте пользователя
+    Route::get('/profile', [UserApiController::class, 'getUserPrivateInfo']);
+
     // изменение сведений об аккаунте пользователя
     Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
 
     // история завершенных заказов пользователя
-    Route::get('/profile/{id}', [UserApiController::class, 'updateUser']);
+//    Route::get('/profile/closedOrders', [UserApiController::class, 'updateUser']);
 
     // активные заказы пользователя
-    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
+//    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
 
     // история выполненных заказов
-    Route::get('/profile/history', [UserApiController::class, '']);
+//    Route::get('/profile/history', [UserApiController::class, '']);
+
+    Route::get('/testAuth', function (Request $request) {
+        print('token exist');
+    });
 });
 
 // регистрация
