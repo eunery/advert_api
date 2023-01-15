@@ -12,8 +12,6 @@ use App\Models\User;
 class VehicleApiController extends Controller
 {
     /**
-     * Get list of user's vehicles
-     *
      * @param Request $request
      * @return JsonResponse
      */

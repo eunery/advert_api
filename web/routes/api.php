@@ -41,7 +41,12 @@ Route::group(['middleware' => ['auth:sanctum']], function (){
 
     // изменение заказа
     Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
+    
+    // выход
+    Route::post('/logout', [AuthApiController::class, 'logout']);
 
+    Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
+});
     // создание транспорта пользователя
     Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
 
