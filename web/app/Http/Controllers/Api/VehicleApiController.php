@@ -61,10 +61,23 @@ class VehicleApiController extends Controller
         #return response()->json([$vehicle], 201);
     }
 
+    /**
+     * Update info about user's vehicle
+     *
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
     public function updateVehicle(Request $request, $id){
         UpdateVehicleJob::dispatch($request, $id);
     }
 
+    /**
+     * Delete user's vehicle
+     *
+     * @return void
+     */
+    public function deleteVehicles() {
 
-
+    }
 }

@@ -30,48 +30,39 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    // выход
+//     выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
-    // создание заказа
+//     создание заказа
     Route::post('/orders', [OrderApiController::class, 'createOrder']);
-
-    // удаление заказа
+//     удаление заказа
     Route::delete('/orders/{id}', [OrderApiController::class, 'deleteOrder']);
-
-    // изменение заказа
+//     изменение заказа
     Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
 
-    // выход
-    Route::post('/logout', [AuthApiController::class, 'logout']);
-
+//     получить машины пользователя
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
-
-    // создание транспорта пользователя
-    Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
-
-    // обновление транспорта пользователя
-    Route::post('/vehicle', [VehicleApiController::class, 'updateVehicle']);
-
-    // список машин пользователя
-    Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
-
-    // получение информации об определенной машине пользователя
+//     получение информации об определенной машине пользователя
     Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
+//     создание транспорта пользователя
+    Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
+//     обновление транспорта пользователя
+    Route::put('/vehicle', [VehicleApiController::class, 'updateVehicle']);
+//     todo удаление информации о машинах
+    Route::delete('/vehicle', [VehicleApiController::class, 'deleteVehicles']);
 
-    // внутренняя информация об аккаунте пользователя
+//     внутренняя информация об аккаунте пользователя
     Route::get('/profile', [UserApiController::class, 'getUserPrivateInfo']);
-
-    // изменение сведений об аккаунте пользователя
+//     изменение сведений об аккаунте пользователя
     Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
 
-    // история завершенных заказов пользователя
+//     история завершенных заказов пользователя
 //    Route::get('/profile/closedOrders', [UserApiController::class, 'updateUser']);
 
-    // активные заказы пользователя
+//     активные заказы пользователя
 //    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
 
-    // история выполненных заказов
+//     история выполненных заказов
 //    Route::get('/profile/history', [UserApiController::class, '']);
 
     Route::get('/testAuth', function (Request $request) {
@@ -81,13 +72,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // регистрация
 Route::post('/register', [AuthApiController::class, 'register']);
-
 // авторизация
 Route::post('/login', [AuthApiController::class, 'login']);
 
 // список всех заказов
 Route::get('/orders', [OrderApiController::class, 'getAllOrders']);
-
 // детали конкретного заказа
 Route::get('/orders/{id}', [OrderApiController::class, 'getOrderById']);
 
