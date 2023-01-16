@@ -13,10 +13,10 @@ class Vehicle extends Model
         'name',
         'color',
         'other',
-        'carBrand',
-        'issueYear',
+        'car_brand',
+        'issue_year',
         'model',
-        'plateNumber',
+        'plate_number',
         'image'
     ];
 

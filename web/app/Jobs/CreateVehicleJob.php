@@ -35,12 +35,13 @@ class CreateVehicleJob implements ShouldQueue
     public function handle()
     {
         Vehicle::create([
-            'carBrand' => $this->data['carBrand'],
+            'car_brand' => $this->data['car_brand'],
             'model' => $this->data['model'],
             'color' => $this->data['color'],
             'other' => $this->data['other'],
-            'issueYear' => $this->data['issueYear'],
-            'image' => $this->data['image']
+            'issue_year' => $this->data['issue_year'],
+            'image' => $this->data['image'],
+            'plate_number' => $this->data['plate_number']
         ]);
     }
 }

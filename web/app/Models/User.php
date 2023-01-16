@@ -32,7 +32,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'isAdmin',
+        'is_admin',
         'password',
         'remember_token',
         'updated_at',

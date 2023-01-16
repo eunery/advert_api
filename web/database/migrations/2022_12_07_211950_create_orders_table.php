@@ -20,14 +20,14 @@ return new class extends Migration
             $table->string('tittle')->nullable();
             $table->string('location')->nullable();
             $table->float('price')->nullable();
-            $table->string('payment_schedule')->nullable();
+            $table->string('paymentSchedule')->nullable();
             $table->string('size')->nullable();
             $table->string('place')->nullable();
             $table->string('text')->nullable();
-            $table->string('short_text')->nullable();
+            $table->string('shortText')->nullable();
             $table->string('user_created')->nullable();
             $table->string('user_accepted')->nullable();
-            $table->timestamp('closed_at')->nullable();
+            $table->dateTime('closed_at')->nullable()->nullable();
             $table->timestamps();
         });
     }

@@ -42,12 +42,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 //     получить машины пользователя
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
+
 //     получение информации об определенной машине пользователя
     Route::get('/vehicle/{id}', [VehicleApiController::class, 'getVehicle']);
+
 //     создание транспорта пользователя
     Route::post('/vehicle', [VehicleApiController::class, 'createVehicle']);
+
 //     обновление транспорта пользователя
-    Route::put('/vehicle', [VehicleApiController::class, 'updateVehicle']);
+    Route::put('/vehicle/{id}', [VehicleApiController::class, 'updateVehicle']);
+
 //     todo удаление информации о машинах
     Route::delete('/vehicle', [VehicleApiController::class, 'deleteVehicles']);
 
