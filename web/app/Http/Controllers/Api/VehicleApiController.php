@@ -50,12 +50,13 @@ class VehicleApiController extends Controller
      */
     public function createVehicle(Request $request) {
         $fields = $request->validate([
-            'carBrand' => 'required|string',
+            'car_brand' => 'required|string',
             'model' => 'required|string',
             'color' => 'required|string',
             'other' => 'nullable|string',
-            'issueYear' => 'required|integer',
-            'image' => 'nullable|string'
+            'issue_year' => 'required|integer',
+            'image' => 'nullable|string',
+            'plate_number' => 'nullable|string'
         ]);
         CreateVehicleJob::dispatch($fields);
         #return response()->json([$vehicle], 201);

@@ -14,7 +14,7 @@ class Order extends Model
         'tittle',
         'location',
         'price',
-        'paymentSchedule',
+        'payment_schedule',
         'size',
         'place',
         'text',
@@ -22,7 +22,7 @@ class Order extends Model
     ];
 
     protected $hidden = [
-        'isActive',
+        'is_active',
         'created_at',
         'closed_at',
         'updated_at'
