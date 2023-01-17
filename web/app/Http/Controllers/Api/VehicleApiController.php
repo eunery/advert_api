@@ -49,7 +49,7 @@ class VehicleApiController extends Controller
      * Create new user's vehicle
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return void
      */
     public function createVehicle(Request $request) {
         $fields = $request->validate([
@@ -58,9 +58,11 @@ class VehicleApiController extends Controller
             'color' => 'required|string',
             'other' => 'nullable|string',
             'issue_year' => 'required|integer',
-            'image' => 'nullable|string',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'plate_number' => 'nullable|string',
         ]);
+        $image_path = $request->file('image')->store('image', 'public');
+        $fields['image'] = $image_path;
         CreateVehicleJob::dispatch($fields);
         #return response()->json([$vehicle], 201);
     }
