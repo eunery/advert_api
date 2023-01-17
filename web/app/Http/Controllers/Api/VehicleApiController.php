@@ -7,9 +7,12 @@ use App\Jobs\CreateVehicleJob;
 use App\Jobs\UpdateVehicleJob;
 use App\Models\Order;
 use App\Models\Vehicle;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Response;
 
 class VehicleApiController extends Controller
 {
@@ -56,7 +59,7 @@ class VehicleApiController extends Controller
             'other' => 'nullable|string',
             'issue_year' => 'required|integer',
             'image' => 'nullable|string',
-            'plate_number' => 'nullable|string'
+            'plate_number' => 'nullable|string',
         ]);
         CreateVehicleJob::dispatch($fields);
         #return response()->json([$vehicle], 201);
@@ -73,12 +76,19 @@ class VehicleApiController extends Controller
         UpdateVehicleJob::dispatch($request, $id);
     }
 
+
     /**
      * Delete user's vehicle
      *
-     * @return void
+     * @param $id
+     * @return Application|ResponseFactory|Response
      */
-    public function deleteVehicles() {
-
+    public function deleteVehicles($id) {
+        $vehicle = Vehicle::find($id);
+        if ($vehicle) {
+            $vehicle->delete();
+            return response(null, 200);
+        } else
+            return response(null, 404);
     }
 }
