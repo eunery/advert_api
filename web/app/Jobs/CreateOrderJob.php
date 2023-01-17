@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class CreateOrderJob implements ShouldQueue
 {
@@ -29,6 +30,7 @@ class CreateOrderJob implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws InvalidArgumentException
      */
     public function handle(): void
     {
