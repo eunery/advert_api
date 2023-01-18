@@ -10,8 +10,6 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'status',
         'tittle',
         'location',
         'price',
@@ -19,16 +17,19 @@ class Order extends Model
         'size',
         'place',
         'text',
-        'shortText',
+        'short_text',
     ];
 
     protected $hidden = [
+        'created_at',
+        'closed_at',
+        'updated_at'
+    ];
+
+    protected $visible = [
         'is_active',
         'is_confirmed',
         'user_created',
         'user_accepted',
-        'created_at',
-        'closed_at',
-        'updated_at'
     ];
 }

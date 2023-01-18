@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\OrderImage;
 use App\Models\User;
 use App\Models\Vehicle;
+use App\Models\VehicleImage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,16 +18,18 @@ class CreateVehicleJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $data;
+    private $fields;
+    private $user_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($fields)
+    public function __construct($fields, $user_id)
     {
-        $this->data = $fields;
+        $this->fields = $fields;
+        $this->user_id = $user_id;
     }
 
     /**
@@ -35,15 +39,20 @@ class CreateVehicleJob implements ShouldQueue
      */
     public function handle()
     {
+        $vehicle = Vehicle::create([
+            'car_brand' => $this->fields['car_brand'],
+            'model' => $this->fields['model'],
+            'color' => $this->fields['color'],
+            'other' => $this->fields['other'],
+            'issue_year' => $this->fields['issue_year'],
+            'plate_number' => $this->fields['plate_number'],
+            'user_id' => $this->user_id
+        ]);
 
-        Vehicle::create([
-            'car_brand' => $this->data['car_brand'],
-            'model' => $this->data['model'],
-            'color' => $this->data['color'],
-            'other' => $this->data['other'],
-            'issue_year' => $this->data['issue_year'],
-            'image' => $this->data['image'],
-            'plate_number' => $this->data['plate_number']
+        VehicleImage::create([
+            'src' => $this->fields['image'],
+            'parent_id' => $vehicle['id']
+            # 'parent_id' => $vehicle->id
         ]);
     }
 }

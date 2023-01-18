@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateVehicleJob;
 use App\Jobs\UpdateVehicleJob;
+use App\Models\OrderImage;
 use App\Models\Order;
 use App\Models\Vehicle;
 use Illuminate\Contracts\Foundation\Application;
@@ -19,7 +20,8 @@ class VehicleApiController extends Controller
     /**
      * @return JsonResponse
      */
-    public function getAllVehicles() {
+    public function getAllVehicles()
+    {
 
         $vehicles = Vehicle::all();
 
@@ -38,7 +40,8 @@ class VehicleApiController extends Controller
      * @param $token
      * @return JsonResponse
      */
-    public function getVehicle($id, $token) {
+    public function getVehicle($id)
+    {
 
         $vehicle = Vehicle::where('id', $id)->first();
 
@@ -51,20 +54,25 @@ class VehicleApiController extends Controller
      * @param Request $request
      * @return void
      */
-    public function createVehicle(Request $request) {
+    public function createVehicle(Request $request)
+    {
         $fields = $request->validate([
             'car_brand' => 'required|string',
             'model' => 'required|string',
             'color' => 'required|string',
             'other' => 'nullable|string',
             'issue_year' => 'required|integer',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'plate_number' => 'nullable|string',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
-        $image_path = $request->file('image')->store('image', 'public');
+
+        $image_path = $request->file('image')->store('image/vehicles', 'public');
         $fields['image'] = $image_path;
-        CreateVehicleJob::dispatch($fields);
-        #return response()->json([$vehicle], 201);
+
+        $token = auth()->user()->getRememberToken();
+        $user_id = User::where('remember_token', $token)->first();
+
+        CreateVehicleJob::dispatch($fields, $user_id);
     }
 
     /**
@@ -74,7 +82,8 @@ class VehicleApiController extends Controller
      * @param $id
      * @return void
      */
-    public function updateVehicle(Request $request, $id){
+    public function updateVehicle(Request $request, $id)
+    {
         UpdateVehicleJob::dispatch($request, $id);
     }
 
@@ -85,7 +94,8 @@ class VehicleApiController extends Controller
      * @param $id
      * @return Application|ResponseFactory|Response
      */
-    public function deleteVehicles($id) {
+    public function deleteVehicles($id)
+    {
         $vehicle = Vehicle::find($id);
         if ($vehicle) {
             $vehicle->delete();
