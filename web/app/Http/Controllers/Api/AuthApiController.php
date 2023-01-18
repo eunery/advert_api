@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\OrderImage;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
@@ -29,9 +30,13 @@ class AuthApiController extends Controller
 
         $fields = $request->validate([
             'name' => 'required|string',
+            'surname' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string' // add confirmed to password
+            'password' => 'required|string', // add confirmed to password
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
+
+        $image_path = $request->file('image')->store('image', 'public');
 
         if (!isEmpty(User::where('email', $fields['email'])->first())) {
             return response()->json(['message' => 'User already exists'], 400);
@@ -39,11 +44,14 @@ class AuthApiController extends Controller
 
         $user = User::create([
             'name' => $fields['name'],
+            'surname' => $fields['surname'],
             'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+            'image' => $image_path
         ]);
 
         $token = $user->createToken('token')->plainTextToken;
+        #$user->remember_token = $token;
 
         $response = [
             'user' => $user,

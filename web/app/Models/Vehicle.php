@@ -10,18 +10,16 @@ class Vehicle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'car_brand',
+        'model',
         'color',
         'other',
-        'car_brand',
         'issue_year',
-        'model',
         'plate_number',
-        'image'
+        'user_id',
     ];
 
     protected $hidden = [
-        'user_id',
         'is_confirmed',
         'created_at',
         'updated_at'
