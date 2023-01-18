@@ -21,4 +21,13 @@ class AdminApiController extends Controller
             ->update(['is_confirmed' => true]);
         return response()->json('confirmed vehicle');
     }
+
+    public function confirmOrderCompletion($id) {
+
+        DB::table('orders')
+            ->where('id', '=', $id)
+            ->update(['is_confirmed' => true]);
+
+        return response()->json('confirmed terms');
+    }
 }

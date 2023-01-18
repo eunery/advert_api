@@ -16,16 +16,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            // 0 - не активно 1 - активно, не подверждено 2 - активно, подверждено
-            $table->integer('status')->default(0);
+            // false - активно, не подверждено; true - активно, подверждено
+            $table->boolean('is_confirmed')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->string('tittle')->nullable();
             $table->string('location')->nullable();
             $table->float('price')->nullable();
-            $table->string('paymentSchedule')->nullable();
+            $table->string('payment_schedule')->nullable();
             $table->string('size')->nullable();
             $table->string('place')->nullable();
             $table->string('text')->nullable();
-            $table->string('shortText')->nullable();
+            $table->string('short_text')->nullable();
             $table->unsignedBigInteger('user_created')->nullable();
             $table->foreign('user_created')->references('id')->on('users');
             $table->unsignedBigInteger('user_accepted')->nullable();

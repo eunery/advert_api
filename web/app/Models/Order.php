@@ -24,6 +24,7 @@ class Order extends Model
 
     protected $hidden = [
         'is_active',
+        'is_confirmed',
         'user_created',
         'user_accepted',
         'created_at',

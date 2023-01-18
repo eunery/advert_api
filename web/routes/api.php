@@ -66,8 +66,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile/active', [UserApiController::class, 'getActiveOrders']);
 //     история выполненных заказов
     Route::get('/profile/history', [UserApiController::class, 'getOrderHistory']);
-//    одобрить запрос на создание машины
-    Route::post('/orderAccept/{id}', [AdminApiController::class, 'confirmVehicle']);
 
 
 
@@ -77,6 +75,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+//    одобрить запрос на создание машины
+    Route::post('/admin/confirmOrder/{id}', [AdminApiController::class, 'confirmVehicle']);
+    Route::post('/admin/confirmVehicle/{id}', [AdminApiController::class, 'confirmVehicle']);
 
 
 });
