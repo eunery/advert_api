@@ -77,8 +77,6 @@ class AuthApiController extends Controller
         }
 
         if (count(DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->get()) > 0) {
-//            deleting db query manually
-//            DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->delete();
             return response()->json(['message' => 'Already logged in'], 406);
         }
 
@@ -93,10 +91,11 @@ class AuthApiController extends Controller
     }
 
     /**
-     * @param Request $request
+     * Logout
+     *
      * @return string[]
      */
-    public function logout(Request $request){
+    public function logout(){
         auth()->user()->tokens()->delete();
         return ['message' => 'Logged out'];
     }
