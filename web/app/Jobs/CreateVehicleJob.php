@@ -51,8 +51,7 @@ class CreateVehicleJob implements ShouldQueue
 
         VehicleImage::create([
             'src' => $this->fields['image'],
-            'parent_id' => $vehicle['id']
-            # 'parent_id' => $vehicle->id
+            'vehicle_id' => $vehicle->id
         ]);
     }
 }

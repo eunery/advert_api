@@ -18,18 +18,15 @@ class Order extends Model
         'place',
         'text',
         'short_text',
+        'user_created',
     ];
 
     protected $hidden = [
+        'is_active',
+        'is_confirmed',
+        'user_accepted',
         'created_at',
         'closed_at',
         'updated_at'
-    ];
-
-    protected $visible = [
-        'is_active',
-        'is_confirmed',
-        'user_created',
-        'user_accepted',
     ];
 }

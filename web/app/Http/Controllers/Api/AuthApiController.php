@@ -51,7 +51,7 @@ class AuthApiController extends Controller
         ]);
 
         $token = $user->createToken('token')->plainTextToken;
-        $user['remember_token'] = $token;
+        #$user->remember_token = $token;
 
         $response = [
             'user' => $user,

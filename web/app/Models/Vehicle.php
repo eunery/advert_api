@@ -16,16 +16,13 @@ class Vehicle extends Model
         'other',
         'issue_year',
         'plate_number',
+        'user_id',
     ];
 
     protected $hidden = [
+        'is_confirmed',
         'created_at',
         'updated_at'
-    ];
-
-    protected $visible = [
-        'user_id',
-        'is_confirmed',
     ];
 
     public function vehicle() {

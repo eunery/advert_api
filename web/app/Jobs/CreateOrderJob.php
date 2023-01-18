@@ -39,19 +39,21 @@ class CreateOrderJob implements ShouldQueue
     public function handle()
     {
         $order = Order::create([
-            'car_brand' => $this->fields['car_brand'],
-            'model' => $this->fields['model'],
-            'color' => $this->fields['color'],
-            'other' => $this->fields['other'],
-            'issue_year' => $this->fields['issue_year'],
-            'plate_number' => $this->fields['plate_number'],
+            'tittle' => $this->fields['tittle'],
+            'location' => $this->fields['location'],
+            'price' => $this->fields['price'],
+            'payment_schedule' => $this->fields['payment_schedule'],
+            'size' => $this->fields['size'],
+            'place' => $this->fields['place'],
+            'text' => $this->fields['text'],
+            'short_text' => $this->fields['short_text'],
+            'image' => $this->fields['image'],
             'user_created' => $this->user_id
         ]);
 
         OrderImage::create([
             'src' => $this->fields['image'],
-            'order_id' => $order['id']
-            # 'parent_id' => $order->id
+            'order_id' => $order->id
         ]);
     }
 }

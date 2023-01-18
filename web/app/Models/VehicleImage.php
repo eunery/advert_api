@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class VehicleImage extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'src',
+        'vehicle_id'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

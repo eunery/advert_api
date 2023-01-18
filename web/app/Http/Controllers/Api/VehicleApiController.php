@@ -14,6 +14,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class VehicleApiController extends Controller
 {
@@ -69,8 +71,7 @@ class VehicleApiController extends Controller
         $image_path = $request->file('image')->store('image/vehicles', 'public');
         $fields['image'] = $image_path;
 
-        $token = auth()->user()->getRememberToken();
-        $user_id = User::where('remember_token', $token)->first();
+        $user_id = Auth::id();
 
         CreateVehicleJob::dispatch($fields, $user_id);
     }

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders_images', function (Blueprint $table) {
+        Schema::create('order_images', function (Blueprint $table) {
             $table->id();
             $table->string('src');
             $table->integer('order_id');
