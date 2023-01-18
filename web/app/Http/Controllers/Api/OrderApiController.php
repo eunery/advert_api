@@ -73,7 +73,12 @@ class OrderApiController extends Controller
             return response(null, 404);
     }
 
-    public function acceptOrder($order_id, Request $request) {
+    /**
+     * Do a checkout for order terms
+     *
+     * @return void
+     */
+    public function orderCheckout() {
 
     }
 }

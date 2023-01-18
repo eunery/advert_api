@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    может как создавать заказ так и принимать, если заполнил допольнительную информацию
 */
 
+// default users
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
 //     выход
@@ -40,24 +41,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/orders/{id}', [OrderApiController::class, 'deleteOrder']);
 //     изменение заказа
     Route::put('orders/{id}', [OrderApiController::class, 'updateOrder']);
+//     отправить на проверку выполнения условий
+    Route::post('/orders/checkout', [OrderApiController::class, 'orderCheckout']);
 
 //     получить машины пользователя
     Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
-
 //     получение информации об определенной машине пользователя
     Route::get('/vehicles/{id}', [VehicleApiController::class, 'getVehicle']);
-
 //     создание транспорта пользователя
     Route::post('/vehicles', [VehicleApiController::class, 'createVehicle']);
-
 //     обновление транспорта пользователя
     Route::put('/vehicles/{id}', [VehicleApiController::class, 'updateVehicle']);
-
-//     todo удаление информации о машинах
+//     удаление информации о машинах
     Route::delete('/vehicles/{id}', [VehicleApiController::class, 'deleteVehicles']);
 
-//     внутренняя информация об аккаунте пользователя
+//    внутренняя информация об аккаунте пользователя
     Route::get('/profile', [UserApiController::class, 'getUserPrivateInfo']);
+//    удалить аккаунт пользователя
+    Route::delete('/profile', [UserApiController::class, 'deleteAccount']);
 //     изменение сведений об аккаунте пользователя
     Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
 //     показывает размещенные пользователем заказы, то есть которые он сам разместил
@@ -74,12 +75,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 });
 
+// admin
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
+//    одобрить запрос на выполнение условий заказа
+    Route::post('/admin/confirmOrder/{id}', [AdminApiController::class, 'confirmOrderCompletion']);
 //    одобрить запрос на создание машины
-    Route::post('/admin/confirmOrder/{id}', [AdminApiController::class, 'confirmVehicle']);
     Route::post('/admin/confirmVehicle/{id}', [AdminApiController::class, 'confirmVehicle']);
-
 
 });
 // регистрация

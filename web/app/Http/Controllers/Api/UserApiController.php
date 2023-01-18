@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,30 @@ class UserApiController extends Controller
     }
 
     /**
-     * Get user's accepted order history
+     * Get user's private information
+     *
+     * @return JsonResponse
+     */
+    public function getUserPrivateInfo() {
+        $user = auth()->user();
+        $info = User::find($user->id);
+        return response()->json($info,302);
+    }
+
+    /**
+     * Delete user's account
+     *
+     * @return JsonResponse
+     */
+    public function deleteAccount() {
+        $user = User::find(auth()->user()->id);
+        $user->delete();
+
+        return response()->json('Account Deleted');
+    }
+
+    /**
+     * Get user's accepted orders history
      *
      * @return JsonResponse
      */
@@ -47,7 +71,7 @@ class UserApiController extends Controller
             ->where('is_active', '=', 'false')
             ->get();
 
-        return response()->json([$response], 302);
+        return response()->json($response, 302);
     }
 
     /**
@@ -61,7 +85,7 @@ class UserApiController extends Controller
         $active = DB::table('orders')
             ->where( 'user_accepted', '=', $user->id)
             ->where('is_active', '=', true)
-            ->where('status', '=', 2)
+            ->where('is_confirmed', '=', true)
             ->get();
 
 
