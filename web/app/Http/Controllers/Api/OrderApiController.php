@@ -45,9 +45,9 @@ class OrderApiController extends Controller
         $fields = $request->validate([
             'tittle' => 'required|string',
             'location' => 'required|string',
-            'price' => 'nullable|integer',
+            'price' => 'nullable|between:0,99.99',
             'payment_schedule' => 'required|string',
-            'size' => 'required|integer',
+            'size' => 'required|string',
             'place' => 'nullable|string',
             'text' => 'nullable|string',
             'short_text' => 'nullable|string',
