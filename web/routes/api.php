@@ -71,7 +71,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     Route::get('/testAuth', function (Request $request) {
-        print('token exist');
+        print(auth()->user());
+        print('\n');
+        print(auth()->id());
+        print('\n');
+        print(auth()->user()->id);
+//        print('token exist');
     });
 });
 
