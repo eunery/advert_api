@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
+            $table->boolean('is_confirmed')->default(false);
             $table->unsignedBigInteger('user_id')->nullable();
-            #$table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('color')->nullable();
             $table->string('other')->nullable();
             $table->string('plate_number')->nullable();

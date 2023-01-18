@@ -11,6 +11,7 @@ class Order extends Model
 
     protected $fillable = [
         'name',
+        'status',
         'tittle',
         'location',
         'price',
@@ -23,6 +24,8 @@ class Order extends Model
 
     protected $hidden = [
         'is_active',
+        'user_created',
+        'user_accepted',
         'created_at',
         'closed_at',
         'updated_at'

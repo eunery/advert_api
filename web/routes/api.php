@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminApiController;
 use App\Http\Controllers\Api\AuthApiController;
 use App\Http\Controllers\Api\OrderApiController;
 use Illuminate\Http\Request;
@@ -59,21 +60,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', [UserApiController::class, 'getUserPrivateInfo']);
 //     изменение сведений об аккаунте пользователя
     Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
-
-//     история завершенных заказов пользователя
-//    Route::get('/profile/closedOrders', [UserApiController::class, 'updateUser']);
-
-//     активные заказы пользователя
-//    Route::get('/profile/active', [UserApiController::class, 'updateUser']);
-
+//     показывает размещенные пользователем заказы, то есть которые он сам разместил
+    Route::get('/profile/myOrders', [UserApiController::class, 'getPostedOrders']);
+//     показывает действующие заказы пользователя, которые он принял на выполнение
+    Route::get('/profile/active', [UserApiController::class, 'getActiveOrders']);
 //     история выполненных заказов
-//    Route::get('/profile/history', [UserApiController::class, '']);
+    Route::get('/profile/history', [UserApiController::class, 'getOrderHistory']);
+//    одобрить запрос на создание машины
+    Route::post('/orderAccept/{id}', [AdminApiController::class, 'confirmVehicle']);
+
+
 
     Route::get('/testAuth', function (Request $request) {
         print('token exist');
     });
 });
 
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+
+});
 // регистрация
 Route::post('/register', [AuthApiController::class, 'register']);
 // авторизация

@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            // 0 - не активно 1 - активно, не подверждено 2 - активно, подверждено
             $table->integer('status')->default(0);
             $table->string('tittle')->nullable();
             $table->string('location')->nullable();
@@ -25,9 +26,11 @@ return new class extends Migration
             $table->string('place')->nullable();
             $table->string('text')->nullable();
             $table->string('shortText')->nullable();
-            $table->string('user_created')->nullable();
-            $table->string('user_accepted')->nullable();
-            $table->dateTime('closed_at')->nullable()->nullable();
+            $table->unsignedBigInteger('user_created')->nullable();
+            $table->foreign('user_created')->references('id')->on('users');
+            $table->unsignedBigInteger('user_accepted')->nullable();
+            $table->foreign('user_accepted')->references('id')->on('users');
+            $table->dateTime('closed_at')->nullable();
             $table->timestamps();
         });
     }
