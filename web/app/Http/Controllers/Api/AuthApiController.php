@@ -85,7 +85,12 @@ class AuthApiController extends Controller
         }
 
         if (count(DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->get()) > 0) {
-            return response()->json(['message' => 'Already logged in'], 406);
+            DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->delete();
+            return response()->json(
+                ['message' => 'Already logged in',
+                    'user'=>$user,
+                    'token' => $user->createToken('token')->plainTextToken],200);
+//                        DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->value('id') . '|' . DB::table('personal_access_tokens')->where('tokenable_id', $user->id)->value('token')], 200);
         }
 
         $token = $user->createToken('token')->plainTextToken;

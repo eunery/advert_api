@@ -36,7 +36,7 @@ class UpdateVehicleJob implements ShouldQueue
      */
     public function handle()
     {
-        $vehicle = Vehicle::find($this->id);
-        $vehicle -> update($this->data);
+//        $vehicle = Vehicle::find($this->id);
+//        $vehicle -> update($this->data);
     }
 }

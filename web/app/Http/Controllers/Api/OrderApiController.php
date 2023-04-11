@@ -7,6 +7,7 @@ use App\Jobs\CreateOrderJob;
 use App\Jobs\GetOrdersJob;
 use App\Jobs\UpdateOrderJob;
 use App\Models\Order;
+use App\Models\OrderImage;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -59,7 +60,24 @@ class OrderApiController extends Controller
 
         $user_id = Auth::id();
 
-        CreateOrderJob::dispatch($fields, $user_id);
+//        CreateOrderJob::dispatch($fields, $user_id);
+        $order = Order::create([
+            'tittle' => $fields['tittle'],
+            'location' => $fields['location'],
+            'price' => $fields['price'],
+            'payment_schedule' => $fields['payment_schedule'],
+            'size' => $fields['size'],
+            'place' => $fields['place'],
+            'text' => $fields['text'],
+            'short_text' => $fields['short_text'],
+            'image' => $fields['image'],
+            'user_created' => $user_id
+        ]);
+
+        OrderImage::create([
+            'src' => $fields['image'],
+            'order_id' => $order->id
+        ]);
     }
 
     /**
@@ -70,7 +88,10 @@ class OrderApiController extends Controller
 
     public function updateOrder(Request $request, Int $id)
     {
-        UpdateOrderJob::dispatch($request, $id);
+//        UpdateOrderJob::dispatch($request, $id);
+        $data = $request->all();
+        $order = Order::find($id);
+        $order -> update($data);
     }
 
     /**

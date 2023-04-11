@@ -9,7 +9,7 @@ services:
       - db
     links:
       - db
-      - rabbit
+#      - rabbit
 
   web_2:
     image: foodly
@@ -19,23 +19,23 @@ services:
       - db
     links:
       - db
-      - rabbit
+#      - rabbit
 
-  rabbit:
-    image: rabbitmq:management
-    hostname: rabbit
-    build: ./rabbitmq
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+#  rabbit:
+#    image: rabbitmq:management
+#    hostname: rabbit
+#    build: ./rabbitmq
+#    ports:
+#      - "15672:15672"
+#      - "5672:5672"
+#    environment:
+#      RABBITMQ_DEFAULT_USER: guest
+#      RABBITMQ_DEFAULT_PASS: guest
+#    healthcheck:
+#      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
 
   nginx:
     build: ./nginx
@@ -80,10 +80,10 @@ services:
       - ./web:/var/www/public
     depends_on:
       - nginx
-      - rabbit
+#      - rabbit
     links:
       - nginx
-      - rabbit
+#      - rabbit
 
 volumes:
   mysql:

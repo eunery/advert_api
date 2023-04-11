@@ -39,19 +39,19 @@ class CreateVehicleJob implements ShouldQueue
      */
     public function handle()
     {
-        $vehicle = Vehicle::create([
-            'car_brand' => $this->fields['car_brand'],
-            'model' => $this->fields['model'],
-            'color' => $this->fields['color'],
-            'other' => $this->fields['other'],
-            'issue_year' => $this->fields['issue_year'],
-            'plate_number' => $this->fields['plate_number'],
-            'user_id' => $this->user_id
-        ]);
-
-        VehicleImage::create([
-            'src' => $this->fields['image'],
-            'vehicle_id' => $vehicle->id
-        ]);
+//        $vehicle = Vehicle::create([
+//            'car_brand' => $this->fields['car_brand'],
+//            'model' => $this->fields['model'],
+//            'color' => $this->fields['color'],
+//            'other' => $this->fields['other'],
+//            'issue_year' => $this->fields['issue_year'],
+//            'plate_number' => $this->fields['plate_number'],
+//            'user_id' => $this->user_id
+//        ]);
+//
+//        VehicleImage::create([
+//            'src' => $this->fields['image'],
+//            'vehicle_id' => $vehicle->id
+//        ]);
     }
 }

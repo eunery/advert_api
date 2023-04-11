@@ -45,38 +45,33 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/orders/checkout', [OrderApiController::class, 'orderCheckout']);
 
 //     получить машины пользователя
-    Route::get('/vehicles', [VehicleApiController::class, 'getAllVehicles']);
+    Route::get('/profile/vehicles', [VehicleApiController::class, 'getAllVehicles']);
 //     получение информации об определенной машине пользователя
-    Route::get('/vehicles/{id}', [VehicleApiController::class, 'getVehicle']);
+    Route::get('/profile/vehicles/{id}', [VehicleApiController::class, 'getVehicle']);
 //     создание транспорта пользователя
-    Route::post('/vehicles', [VehicleApiController::class, 'createVehicle']);
+    Route::post('/profile/vehicles', [VehicleApiController::class, 'createVehicle']);
 //     обновление транспорта пользователя
-    Route::put('/vehicles/{id}', [VehicleApiController::class, 'updateVehicle']);
+    Route::put('/profile/vehicles/{id}', [VehicleApiController::class, 'updateVehicle']);
 //     удаление информации о машинах
-    Route::delete('/vehicles/{id}', [VehicleApiController::class, 'deleteVehicles']);
+    Route::delete('/profile/vehicles/{id}', [VehicleApiController::class, 'deleteVehicles']);
 
 //    внутренняя информация об аккаунте пользователя
     Route::get('/profile', [UserApiController::class, 'getUserPrivateInfo']);
 //    удалить аккаунт пользователя
     Route::delete('/profile', [UserApiController::class, 'deleteAccount']);
 //     изменение сведений об аккаунте пользователя
-    Route::put('/profile/{id}', [UserApiController::class, 'updateUser']);
+    Route::put('/profile', [UserApiController::class, 'updateUser']);
 //     показывает размещенные пользователем заказы, то есть которые он сам разместил
     Route::get('/profile/myOrders', [UserApiController::class, 'getPostedOrders']);
 //     показывает действующие заказы пользователя, которые он принял на выполнение
     Route::get('/profile/active', [UserApiController::class, 'getActiveOrders']);
 //     история выполненных заказов
-    Route::get('/profile/history', [UserApiController::class, 'getOrderHistory']);
+    Route::post('/profile/history', [UserApiController::class, 'getOrderHistory']);
 
 
 
-    Route::get('/testAuth', function (Request $request) {
-        print(auth()->user());
-        print('\n');
-        print(auth()->id());
-        print('\n');
-        print(auth()->user()->id);
-//        print('token exist');
+    Route::post('/auth', function (Request $request) {
+        return response()->json(['message' => 'logged in', 'user' => auth()->user(), 'is_auth' => auth()->check()], 200);
     });
 });
 
@@ -111,6 +106,3 @@ Route::get('/test', function (Request $request) {
 //        return 'Соединения нет';
 //    }
 });
-
-
-

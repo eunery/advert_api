@@ -17,9 +17,15 @@ class UserApiController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function updateUser(Request $request, User $user){
-        $user->update($request->all());
-        return response()->json($user);
+    public function updateUser(Request $request){
+
+        $user = User::find(auth()->user()->id);
+        $data = $request->all();
+        $user->update($data);
+        return response()->json($user,200);
+//        $data = $request->all();
+//        $vehicle = Vehicle::find($id);
+//        $vehicle -> update($data);
     }
 
     /**
@@ -67,10 +73,10 @@ class UserApiController extends Controller
         $user = auth()->user();
         $response = DB::table('orders')
             ->where( 'user_accepted', '=', $user->id)
-            ->where('is_active', '=', 'false')
+            ->where('is_active', '=', '0')
             ->get();
 
-        return response()->json($response, 302);
+        return response()->json($response, 200);
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Jobs\UpdateVehicleJob;
 use App\Models\OrderImage;
 use App\Models\Order;
 use App\Models\Vehicle;
+use App\Models\VehicleImage;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -26,11 +27,7 @@ class VehicleApiController extends Controller
     {
 
         $vehicles = Vehicle::all();
-
-        $response = [
-            $vehicles
-        ];
-        return response()->json([$response], 201);
+        return response()->json($vehicles, 200);
     }
 
     // Метод получает айди машины и токен пользователя и дает информацию об определенной машине
@@ -47,7 +44,7 @@ class VehicleApiController extends Controller
 
         $vehicle = Vehicle::where('id', $id)->first();
 
-        return response()->json([$vehicle], 201);
+        return response()->json([$vehicle], 200);
     }
 
     /**
@@ -73,7 +70,21 @@ class VehicleApiController extends Controller
 
         $user_id = Auth::id();
 
-        CreateVehicleJob::dispatch($fields, $user_id);
+//        CreateVehicleJob::dispatch($fields, $user_id);
+        $vehicle = Vehicle::create([
+            'car_brand' => $fields['car_brand'],
+            'model' => $fields['model'],
+            'color' => $fields['color'],
+            'other' => $fields['other'],
+            'issue_year' => $fields['issue_year'],
+            'plate_number' => $fields['plate_number'],
+            'user_id' => $user_id
+        ]);
+
+        VehicleImage::create([
+            'src' => $fields['image'],
+            'vehicle_id' => $vehicle->id
+        ]);
     }
 
     /**
@@ -85,7 +96,10 @@ class VehicleApiController extends Controller
      */
     public function updateVehicle(Request $request, $id)
     {
-        UpdateVehicleJob::dispatch($request, $id);
+//        UpdateVehicleJob::dispatch($request, $id);
+        $data = $request->all();
+        $vehicle = Vehicle::find($id);
+        $vehicle -> update($data);
     }
 
 

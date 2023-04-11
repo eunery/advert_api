@@ -35,7 +35,7 @@ class UpdateOrderJob implements ShouldQueue
      */
     public function handle()
     {
-        $order = Order::find($this->id);
-        $order -> update($this->data);
+//        $order = Order::find($this->id);
+//        $order -> update($this->data);
     }
 }
