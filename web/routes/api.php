@@ -29,14 +29,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
    может как создавать заказ так и принимать, если заполнил допольнительную информацию
 */
 
-// default users
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
 //     выход
     Route::post('/logout', [AuthApiController::class, 'logout']);
 
 //     создание заказа
     Route::post('/orders', [OrderApiController::class, 'createOrder']);
+    Route::post('/orders/{id}', [UserApiController::class, 'acceptOrder']);
 //     удаление заказа
     Route::delete('/orders/{id}', [OrderApiController::class, 'deleteOrder']);
 //     изменение заказа
@@ -76,14 +76,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 // admin
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'cors']], function () {
 
 //    одобрить запрос на выполнение условий заказа
     Route::post('/admin/confirmOrder/{id}', [AdminApiController::class, 'confirmOrderCompletion']);
 //    одобрить запрос на создание машины
     Route::post('/admin/confirmVehicle/{id}', [AdminApiController::class, 'confirmVehicle']);
-
+//    не одобренные посты
+    Route::get('/admin/notConfirmedOrders', [AdminApiController::class, 'notConfirmedOrders']);
+//    не одобренный транспорт
+    Route::get('/admin/notConfirmedVehicles', [AdminApiController::class, 'notConfirmedVehicles']);
 });
+
 // регистрация
 Route::post('/register', [AuthApiController::class, 'register']);
 // авторизация
@@ -106,3 +110,4 @@ Route::get('/test', function (Request $request) {
 //        return 'Соединения нет';
 //    }
 });
+Route::post('/testImage', [AdminApiController::class, 'testUpload']);

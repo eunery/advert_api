@@ -33,7 +33,7 @@ class AuthApiController extends Controller
             'surname' => 'required|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string', // add confirmed to password
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
         $image_path = $request->file('image')->store('image', 'public');
@@ -58,7 +58,7 @@ class AuthApiController extends Controller
             'token' => $token
         ];
 
-        return response()->json($response, 201);
+        return response()->json($response, 200);
     }
 
     /**

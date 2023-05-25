@@ -125,6 +125,6 @@ class UserApiController extends Controller
             ->where('id','=', $id)
             ->update(['user_accepted' => $user->id]);
 
-        return response()->json('accepted order');
+        return response()->json('accepted order', 200);
     }
 }

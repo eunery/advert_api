@@ -21,16 +21,18 @@ use Illuminate\Support\Facades\DB;
 class VehicleApiController extends Controller
 {
     /**
+     * Get user's confirmed vehicles
+     *
      * @return JsonResponse
      */
     public function getAllVehicles()
     {
-
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::where('user_id', auth()->user()->id)->where('is_confirmed', true)->get();
+//        $vehicles = DB::table('vehicles')
+//            ->where('user_id', '=', auth()->user()->id)
+//            ->where('is_confirmed', '=', true)->get();
         return response()->json($vehicles, 200);
     }
-
-    // Метод получает айди машины и токен пользователя и дает информацию об определенной машине
 
     /**
      * Get user's vehicle
@@ -62,9 +64,9 @@ class VehicleApiController extends Controller
             'other' => 'nullable|string',
             'issue_year' => 'required|integer',
             'plate_number' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
+        $request->file('image')->store('test', 'public');
         $image_path = $request->file('image')->store('image/vehicles', 'public');
         $fields['image'] = $image_path;
 
@@ -114,7 +116,7 @@ class VehicleApiController extends Controller
         $vehicle = Vehicle::find($id);
         if ($vehicle) {
             $vehicle->delete();
-            return response(null, 200);
+            return response('vehicle deleted', 200);
         } else
             return response(null, 404);
     }

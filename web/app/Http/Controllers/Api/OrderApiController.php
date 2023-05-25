@@ -20,24 +20,30 @@ use Illuminate\Support\Facades\DB;
 class OrderApiController extends Controller
 {
     /**
+     * Get all orders
+     *
      * @return JsonResponse
      */
     public function getAllOrders(): JsonResponse
     {
-        return response()->json(Order::all());
+        return response()->json(Order::where('user_accepted', null)->where('is_active', true)->get());
     }
 
+
     /**
+     * Get order by id
+     *
      * @param $id
      * @return JsonResponse
      */
-
     public function getOrderById($id): JsonResponse
     {
         return response()->json(Order::find($id));
     }
 
     /**
+     * Create order
+     *
      * @param Request $request
      * @return void
      */
@@ -52,7 +58,7 @@ class OrderApiController extends Controller
             'place' => 'nullable|string',
             'text' => 'nullable|string',
             'short_text' => 'nullable|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
 
         $image_path = $request->file('image')->store('image/orders', 'public');
@@ -81,11 +87,12 @@ class OrderApiController extends Controller
     }
 
     /**
+     * Update order's credentials
+     *
      * @param Request $request
      * @param Int $id
      * @return void
      */
-
     public function updateOrder(Request $request, Int $id)
     {
 //        UpdateOrderJob::dispatch($request, $id);
@@ -95,10 +102,11 @@ class OrderApiController extends Controller
     }
 
     /**
+     * Delete order
+     *
      * @param $id
      * @return Application|ResponseFactory|Response
      */
-
     public function deleteOrder($id)
     {
         $order = Order::find($id);
@@ -107,14 +115,5 @@ class OrderApiController extends Controller
             return response(null, 200);
         } else
             return response(null, 404);
-    }
-
-    /**
-     * Do a checkout for order terms
-     *
-     * @return void
-     */
-    public function orderCheckout() {
-
     }
 }
